@@ -2,12 +2,12 @@ body {
   font-family: sans-serif;
   margin: 0;
   padding: 1rem;
-  background: #fffdd0; /* cream color */
+  background: #ffffff; /* cream color */
 }
 main {
   max-width: 500px;
   margin: auto;
-  background: #ffffff;
+  background: #fffdd0;
   padding: 1rem;
   border-radius: 8px;
 }
