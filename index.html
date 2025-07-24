@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloud Notes</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon.png" />
+</head>
+<body>
+  <main>
+    <h1>📝 Cloud Notes</h1>
+    <textarea id="noteInput" placeholder="Type your note or checklist here..."></textarea>
+    <button onclick="saveNote()">Save Note</button>
+    <button onclick="clearNotes()">Clear All</button>
+    <ul id="notesList"></ul>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
