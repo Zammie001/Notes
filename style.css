@@ -7,7 +7,7 @@ body {
 main {
   max-width: 500px;
   margin: auto;
-  background: white;
+  background: #fffdd0;
   padding: 1rem;
   border-radius: 8px;
 }
