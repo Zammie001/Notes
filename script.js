@@ -1,18 +1,32 @@
+let editingIndex = null;
+
 function saveNote() {
   const input = document.getElementById('noteInput').value.trim();
   if (!input) return;
 
   const notes = JSON.parse(localStorage.getItem('notes') || '[]');
-  if (input.includes('\n')) {
-    const checklist = input.split('\n').map(line => ({ text: line, done: false }));
-    notes.push({ type: 'checklist', items: checklist });
+
+  if (editingIndex !== null) {
+    // Edit existing note
+    notes[editingIndex] = parseInput(input);
+    editingIndex = null;
   } else {
-    notes.push({ type: 'text', content: input });
+    // Add new note
+    notes.push(parseInput(input));
   }
 
   localStorage.setItem('notes', JSON.stringify(notes));
   document.getElementById('noteInput').value = '';
   renderNotes();
+}
+
+function parseInput(input) {
+  if (input.includes('\n')) {
+    const checklist = input.split('\n').map(line => ({ text: line, done: false }));
+    return { type: 'checklist', items: checklist };
+  } else {
+    return { type: 'text', content: input };
+  }
 }
 
 function renderNotes() {
@@ -22,8 +36,12 @@ function renderNotes() {
 
   notes.forEach((note, idx) => {
     const li = document.createElement('li');
+
+    const noteWrapper = document.createElement('div');
+    noteWrapper.className = 'note';
+
     if (note.type === 'text') {
-      li.textContent = note.content;
+      noteWrapper.textContent = note.content;
     } else if (note.type === 'checklist') {
       note.items.forEach((item, i) => {
         const checkbox = document.createElement('input');
@@ -36,12 +54,44 @@ function renderNotes() {
         const label = document.createElement('label');
         label.appendChild(checkbox);
         label.appendChild(document.createTextNode(item.text));
-        li.appendChild(label);
-        li.appendChild(document.createElement('br'));
+        noteWrapper.appendChild(label);
+        noteWrapper.appendChild(document.createElement('br'));
       });
     }
+
+    const editBtn = document.createElement('button');
+    editBtn.textContent = '✏️';
+    editBtn.onclick = () => editNote(idx);
+
+    const delBtn = document.createElement('button');
+    delBtn.textContent = '🗑️';
+    delBtn.onclick = () => deleteNote(idx);
+
+    li.appendChild(noteWrapper);
+    li.appendChild(editBtn);
+    li.appendChild(delBtn);
     list.appendChild(li);
   });
+}
+
+function editNote(index) {
+  const notes = JSON.parse(localStorage.getItem('notes') || '[]');
+  const note = notes[index];
+
+  if (note.type === 'text') {
+    document.getElementById('noteInput').value = note.content;
+  } else if (note.type === 'checklist') {
+    document.getElementById('noteInput').value = note.items.map(i => i.text).join('\n');
+  }
+
+  editingIndex = index;
+}
+
+function deleteNote(index) {
+  const notes = JSON.parse(localStorage.getItem('notes') || '[]');
+  notes.splice(index, 1);
+  localStorage.setItem('notes', JSON.stringify(notes));
+  renderNotes();
 }
 
 function clearNotes() {

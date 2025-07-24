@@ -11,9 +11,11 @@
 <body>
   <main>
     <h1>📝 Cloud Notes</h1>
-    <textarea id="noteInput" placeholder="Type your note or checklist here..."></textarea>
-    <button onclick="saveNote()">Save Note</button>
-    <button onclick="clearNotes()">Clear All</button>
+    <textarea id="noteInput" placeholder="Type your note or checklist here... (use Enter for new lines)"></textarea>
+    <div>
+      <button onclick="saveNote()">Save Note</button>
+      <button onclick="clearNotes()">Clear All</button>
+    </div>
     <ul id="notesList"></ul>
   </main>
   <script src="script.js"></script>
